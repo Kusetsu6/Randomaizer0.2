@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 
-API_TOKEN = "ВАШ_ТОКЕН"
+API_TOKEN = "8756157675:AAHO6Nk1hJUtNvs_y3-LF9EgFjhjmlnSK34"
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
@@ -13,8 +13,8 @@ dp = Dispatcher()
 async def show_menu(message: Message):
     keyboard = ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="Привіт 👋"), KeyboardButton(text="Як справи? 😊")],
-            [KeyboardButton(text="Анекдот 🤣")]
+            [KeyboardButton(text="Anime"), KeyboardButton(text="Manhwa")],
+            [KeyboardButton(text="manga")]
         ],
         resize_keyboard=True
     )
