@@ -1,58 +1,41 @@
-import random
-from aiogram import Bot, Dispatcher, executor, types
+import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.filters import Command
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 
-TOKEN = "ТУТ_ТВОЙ_ТОКЕН"
+API_TOKEN = "ВАШ_ТОКЕН"
 
-bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher()
 
-anime_list = [
-    {
-        "title": "Attack on Titan",
-        "genres": "Action, Drama, Fantasy",
-        "episodes": "89",
-        "rating": "9.1"
-    },
-    {
-        "title": "Naruto",
-        "genres": "Action, Adventure",
-        "episodes": "220",
-        "rating": "8.3"
-    },
-    {
-        "title": "Death Note",
-        "genres": "Mystery, Thriller",
-        "episodes": "37",
-        "rating": "9.0"
-    },
-    {
-        "title": "Demon Slayer",
-        "genres": "Action, Fantasy",
-        "episodes": "55",
-        "rating": "8.7"
-    }
-]
+# Команда /menu показує кнопки
+@dp.message(Command("menu"))
+async def show_menu(message: Message):
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="Привіт 👋"), KeyboardButton(text="Як справи? 😊")],
+            [KeyboardButton(text="Анекдот 🤣")]
+        ],
+        resize_keyboard=True
+    )
+    await message.answer("Вибери опцію:", reply_markup=keyboard)
 
-@dp.message_handler(commands=['start'])
-async def start(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button = types.KeyboardButton("🎲 Рандомне аніме")
-    keyboard.add(button)
+# Обробка натискань
+@dp.message()
+async def handle_message(message: Message):
+    text = message.text
+    if text == "Привіт 👋":
+        await message.answer("Привіт-привіт! 👋")
+    elif text == "Як справи? 😊":
+        await message.answer("Усе чудово! А в тебе?")
+    elif text == "Анекдот 🤣":
+        await message.answer("Як називається кіт-програміст? — JavaMeow!")
+    else:
+        await message.answer("Натисни одну з кнопок 😺")
 
-    await message.answer("Натисни кнопку щоб отримати рандомне аніме", reply_markup=keyboard)
+async def main():
+    print("Бот запущений...")
+    await dp.start_polling(bot)
 
-@dp.message_handler(lambda message: message.text == "🎲 Рандомне аніме")
-async def random_anime(message: types.Message):
-    anime = random.choice(anime_list)
-
-    text = f"""
-🎬 Назва: {anime['title']}
-📺 Серії: {anime['episodes']}
-🎭 Жанри: {anime['genres']}
-⭐ Рейтинг: {anime['rating']}
-"""
-
-    await message.answer(text)
-
-if name == "main":
-    executor.start_polling(dp)
+if __name__ == "__main__":
+    asyncio.run(main())
