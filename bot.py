@@ -24,7 +24,7 @@ async def show_menu(message: Message):
 @dp.message()
 async def handle_message(message: Message):
     text = message.text
-    if text == "Привіт 👋":
+    if text == "Привіт":
         await message.answer("Привіт-привіт! 👋")
     elif text == "Як справи? 😊":
         await message.answer("Усе чудово! А в тебе?")
